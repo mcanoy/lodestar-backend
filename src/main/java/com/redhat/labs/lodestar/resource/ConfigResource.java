@@ -9,7 +9,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.eclipse.microprofile.jwt.JsonWebToken;
+import org.eclipse.microprofile.metrics.MetricUnits;
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
@@ -26,9 +28,6 @@ public class ConfigResource {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigResource.class);
 
     @Inject
-    JsonWebToken jwt;
-
-    @Inject
     ConfigService configService;
 
     @GET
@@ -37,6 +36,8 @@ public class ConfigResource {
             @APIResponse(responseCode = "401", description = "Missing or Invalid JWT"),
             @APIResponse(responseCode = "200", description = "Configuration file data has been returned.") })
     @Operation(summary = "Returns configuration file data from git.")
+    @Counted(name = "config-get-counted")
+    @Timed(name = "config-get-timer", unit = MetricUnits.MILLISECONDS)
     public Response fetchConfigData(@HeaderParam(value = "Accept-version") String apiVersion) {
         LOGGER.debug("Config version requested {}", apiVersion);
         return configService.getConfigData(apiVersion);
