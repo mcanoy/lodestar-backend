@@ -15,8 +15,8 @@ git:
 
 lodestarGitlabApiUrl: http://lodestar-git-api:8080
 jwtPublicKeyLocation: false
-jwtIssuer: false
-jwtEnable: true
+authServerUrl: https://sso.url
+authClientId: ssoClientId
 mongodbServiceName: lodestar-backend-mongodb
 mongodbUser: mongouser
 mongodbPassword: mongopassword
