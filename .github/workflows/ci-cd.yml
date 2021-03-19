@@ -36,7 +36,7 @@ jobs:
       uses: jacobtomlinson/gha-find-replace@0.1.1
       with:
         find: "quarkus.http.auth.policy.role-writer.roles-allowed.*"
-        replace: "${{ gsecrets.WRITERS }}"
+        replace: "${{ secrets.WRITERS }}"
         include: "src/main/resources/application.properties"
     - uses: redhat-cop/github-actions/s2i@v2
       with:
