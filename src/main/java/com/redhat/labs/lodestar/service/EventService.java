@@ -359,8 +359,13 @@ public class EventService {
 
         LOGGER.trace("getting page {} of engagements from git api.", page);
 
-        // get page of engagements from git api
-        return gitApiClient.getEngagments(true, page, engagementPerPage, false, false);
+        try {
+            // get page of engagements from git api
+            return gitApiClient.getEngagments(true, page, engagementPerPage, false, false);
+        } catch(RuntimeException ex) {
+            LOGGER.error(ex.getMessage());
+            throw ex;
+        }
 
     }
 
